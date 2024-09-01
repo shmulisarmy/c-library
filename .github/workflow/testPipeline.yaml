@@ -1,20 +1,10 @@
-name: CI
-
-on: 
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
 jobs: 
   build-and-test:
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        compiler: [gcc, clang]  # Add compilers to the matrix
+        compiler: [gcc, clang]
 
     name: Build and Test on ${{ matrix.os }} with ${{ matrix.compiler }}
     runs-on: ${{ matrix.os }}
@@ -41,5 +31,4 @@ jobs:
           fi
 
       - name: Run tests
-        run: |
-          ./test
+        run: ./test
