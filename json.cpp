@@ -47,7 +47,7 @@ public:
         }
     }
 
-    Json<T> map(std::function<string, T> func){
+    Json<T> map(std::function<pair<string, T>(string, T)> func){
         Json<T> j = *this;
         pair<string, T> p;
         for (auto it = this->begin(); it != this->end(); it++){
@@ -77,6 +77,10 @@ public:
 
 
 
+namespace json{
+
+
+
 void test(){
 
     Json<int> j;
@@ -92,13 +96,11 @@ void test(){
 
 
 
-
-   
-
-
 }
 
 
-int main(){
+
+   
+
 
 }

@@ -1,4 +1,4 @@
-#define UsingAsLibrary__
+#include "testStarter.cpp"
 
 #include <iostream>
 #include <string>
@@ -52,3 +52,47 @@ struct Pos
 };
 
 
+namespace posistion{
+    void equalityTest(){
+        Pos position1(0, 0);
+        Pos position2(0, 0);
+
+
+        ASSERT_EQUAL(position1, position2);
+    }
+
+
+    void plusTest(){
+        Pos position1(0, 0);
+        Pos position2(1, 1);
+        Pos position3 = position1 + position2;
+        ASSERT_EQUAL(position3.x, 1);
+        ASSERT_EQUAL(position3.y, 1);
+    }
+
+
+    void minusTest(){
+        Pos position1(0, 0);
+        Pos position2(1, 1);
+        Pos position3 = position1 - position2;
+        ASSERT_EQUAL(position3.x, -1);
+        ASSERT_EQUAL(position3.y, -1);
+    }
+
+
+    void notEqualTest(){
+        Pos position1(0, 0);
+        Pos position2(1, 1);
+        ASSERT_TRUE(position1 != position2);
+    }
+
+
+    void test(){
+        equalityTest();
+        plusTest();
+        minusTest();
+        notEqualTest();
+    }
+
+    
+}

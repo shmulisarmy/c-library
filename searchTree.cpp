@@ -1,3 +1,6 @@
+#include "testStarter.cpp"
+
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -14,7 +17,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cassert>
-#include "/Users/Shmuli/c++library/que.cpp"
+#include "que.cpp"
 using std::string, std::vector, std::map, std::set, std::queue, std::pair;
 using std::cin, std::cout, std::endl, std::stringstream;
 using std::max, std::min;
@@ -154,6 +157,7 @@ std::ostream& operator<<(std::ostream& out, searchNode<int> tree){
 
 
 
+namespace searchTree{
 
 void test(){
     searchNode<int> tree;
@@ -162,13 +166,17 @@ void test(){
     tree.insert("hepye", 3);
 
 
-    assert(tree.hasWord("hilt"));
-    assert(!tree.hasWord("doof"));
-    assert(tree.containes("hil"));
+    ASSERT_TRUE(tree.hasWord("hit"));
+    ASSERT_TRUE(!tree.hasWord("doof"));
+    ASSERT_TRUE(tree.containes("hil"));
+}
+
 }
 
 
 
+
+#if 0
 int main(){
 
     // test();
@@ -183,6 +191,6 @@ int main(){
     cout << tree["h"]->bfs() << endl;
     return 0;
 }
-
+#endif
 
 

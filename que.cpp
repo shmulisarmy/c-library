@@ -16,8 +16,7 @@
 #include <cstdio>
 #include <cstring>
 #include <cassert>
-#include "/Users/Shmuli/c++library/linkedList.cpp"
-#include "/Users/Shmuli/c++library/shmuli.hpp"
+#include "linkedList.cpp"
 using std::string, std::vector, std::map, std::set, std::queue, std::pair;
 using std::cin, std::cout, std::endl, std::stringstream;
 using std::max, std::min;
