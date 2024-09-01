@@ -166,7 +166,7 @@ void test(){
     tree.insert("hepye", 3);
 
 
-    ASSERT_TRUE(tree.hasWord("hit"));
+    ASSERT_TRUE(tree.hasWord("hilt"));
     ASSERT_TRUE(!tree.hasWord("doof"));
     ASSERT_TRUE(tree.containes("hil"));
 }
