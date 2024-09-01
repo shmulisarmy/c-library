@@ -15,24 +15,25 @@ jobs:
 
       - name: Set up ${{ matrix.compiler }}
         run: |
-          if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+          if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
+            sudo apt-get update
             sudo apt-get install -y ${{ matrix.compiler }} 
-          elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+          elif [ "${{ matrix.os }}" == "macos-latest" ]; then
             # On macOS, clang is pre-installed, and gcc points to clang
             echo "No additional setup required for ${{ matrix.compiler }} on macOS."
           fi
 
       - name: Compile the code
         run: |
-          if [[ "${{ matrix.compiler }}" == "gcc" ]]; then
+          if [ "${{ matrix.compiler }}" == "gcc" ]; then
             g++ -o test test.cpp -std=c++17
-          elif [[ "${{ matrix.compiler }}" == "clang" ]]; then
+          elif [ "${{ matrix.compiler }}" == "clang" ]; then
             clang++ -o test test.cpp -std=c++17
           fi
 
-      - name: confirm compilation
+      - name: Confirm compilation
         run: |
-          if [[ ! -f test ]]; then
+          if [ ! -f test ]; then
             echo "test executable not found"
             ls
             exit 1
