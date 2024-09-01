@@ -34,7 +34,7 @@ static int passed_tests = 0;
     } else { \
         std::cout << red << "FAILED: " << #cond << reset; \
     } \
-    cout << "in file " << __FILE__ << " on line " << __LINE__ << "" << endl; \
+    cout << " in file " << __FILE__ << " on line " << __LINE__ << "" << endl; \
 } while(0)
 
 #define ASSERT_EQUAL(expected, actual) do { total_tests++; \
@@ -44,7 +44,7 @@ static int passed_tests = 0;
     } else { \
         std::cout << red << "FAILED: " << #actual << " == " << #expected << reset; \
     } \
-    cout << "in file " << __FILE__ << " on line " << __LINE__ << "" << endl; \
+    cout << " in file " << __FILE__ << " on line " << __LINE__ << "" << endl; \
 } while(0)
 
 #define TEST_REPORT() do { \

@@ -33,7 +33,7 @@ using std::shared_ptr;
 class vertex
 /**
  * this class is meant to be used by graph
-*/
+*/ 
 {
 private:
     /* data */
