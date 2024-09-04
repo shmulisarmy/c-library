@@ -36,14 +36,24 @@ class matrix{
         for (int i = 0; i < w*h; i++) data.push_back(initValiue);
     };
 
-    inline bool asign(const Pos& pos, T value){
-        if (pos.y >= maxHeight || pos.x >= maxWidth) return false;
-        int y = pos.y%maxHeight;
-        int x = pos.x%maxWidth;
+    inline bool asign(const Pos& Pos, T value){
+        if (Pos.y >= maxHeight || Pos.x >= maxWidth) return false;
+        int y = Pos.y%maxHeight;
+        int x = Pos.x%maxWidth;
         data[y*maxWidth + x] = value;
         return true;
     };
-    inline T operator[](const Pos& pos) const {
+    inline T operator[](const Pos Pos) const {
+        if (Pos.y >= maxHeight || Pos.x >= maxWidth) {
+            throw "out of bounds";
+            return T();
+        }
+        int y = Pos.y%maxHeight;
+        int x = Pos.x%maxWidth;
+        return data[y*maxWidth + x];
+    };
+
+    inline T get(const Pos pos) const {
         if (pos.y >= maxHeight || pos.x >= maxWidth) {
             throw "out of bounds";
             return T();
@@ -63,7 +73,7 @@ class matrix{
     }
 
 
-    inline int areaSum(pos rangeStart, pos rangeEnd){
+    inline int areaSum(Pos rangeStart, Pos rangeEnd){
         rangeStart.y = max(rangeStart.y, 0);
         rangeStart.x = max(rangeStart.x, 0);
         rangeEnd.y = min(rangeEnd.y, maxHeight-1);
@@ -80,7 +90,7 @@ class matrix{
         return totalSum;
     }
 
-    inline int areaProduct(pos rangeStart, pos rangeEnd){
+    inline int areaProduct(Pos rangeStart, Pos rangeEnd){
         rangeStart.y = max(rangeStart.y, 0);
         rangeStart.x = max(rangeStart.x, 0);
         rangeEnd.y = min(rangeEnd.y, maxHeight-1);
@@ -97,7 +107,7 @@ class matrix{
         return totalproduct;
     }
 
-    inline void displayArea(pos rangeStart, pos rangeEnd){
+    inline void displayArea(Pos rangeStart, Pos rangeEnd){
         rangeStart.y = max(rangeStart.y, 0);
         rangeStart.x = max(rangeStart.x, 0);
         rangeEnd.y = min(rangeEnd.y, maxHeight-1);
@@ -116,6 +126,8 @@ class matrix{
 };
 
 
+
+#if 0
 int main(){
     matrix<int> mat(10,10);
     cout << mat.asign({5,5},1) << endl;
@@ -123,6 +135,4 @@ int main(){
 
     mat.display();
 }
-
-
-
+#endif

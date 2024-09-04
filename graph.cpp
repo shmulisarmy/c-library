@@ -18,138 +18,155 @@
 using std::string, std::vector, std::map, std::set, std::queue, std::pair;
 using std::cin, std::cout, std::endl, std::stringstream;
 using std::max, std::min;
+using std::make_pair, std::make_shared;
 using std::priority_queue;
 using std::shared_ptr;
 
 
-#if __cplusplus < 201103L
-#endif
+template <typename T>
+inline void extend(set<T> &a, set<T> b);
 
 
+template <typename T>
+inline void extend(set<T>&a, vector<T>b);
 
 
-
-class vertex
-/**
- * this class is meant to be used by graph
-*/ 
+class Graph
 {
 private:
-    /* data */
 public:
-/**
- * there are multiple different ways to connect to other vertex
-*/
-using connectionType = string;
-map<connectionType, vector<string>> connections;
-string name;
-    vertex(string name): name(name){};
+    map<string, map<string, vector<string>>> vertexes;
+    set<string> connectionTypes;
 
-    inline void display(){
-        cout << "vertex: " << name << endl;
-        for (auto it = connections.begin(); it != connections.end(); it++){
-            cout << it->first << ": ";
-            for (int i = 0; i < it->second.size(); i++){
-                const string& connection = it->second[i];
-                cout << "\t" << connection << " ";
+
+    void inline addVertex(string name) noexcept{
+        vertexes[name];
+        return ;
+    }
+
+    void inline addConnectionType(const string connectionType) noexcept{
+        connectionTypes.insert(connectionType);
+        return ;
+    }
+
+    bool inline addConnection(string fromVertex, string toVertex, string connectionType){
+        if(vertexes.find(fromVertex) == vertexes.end()){
+            return false;
+        }
+
+        if(vertexes.find(toVertex) == vertexes.end()){
+            return false;
+        }
+
+        if(connectionTypes.find(connectionType) == connectionTypes.end()){
+            return false;
+        }
+        vertexes[fromVertex][connectionType].push_back(toVertex);
+    
+        return true;
+    }
+
+
+    const void inline display() const noexcept{
+        cout << "displaying graph" << endl;
+        for(auto it = vertexes.begin(); it != vertexes.end(); it++){
+            cout << it->first << " : ";
+            for(auto it2 = it->second.begin(); it2 != it->second.end(); it2++){
+                cout << it2->first << " : ";
+                for(auto it3 = it2->second.begin(); it3 != it2->second.end(); it3++){
+                    cout << *it3 << " ";
+                }
+                cout << endl;
             }
             cout << endl;
         }
+        cout << "end of display" << endl;
+        return ;
     }
+
+    const vector<string> inline expand(string vertexName, vector<string> connectionTypes)const{
+        set<string> outVertexes;
+        set<string> usingVertexes({vertexName});
+        set<string> nextUsingVertexes;
+        for (auto connectionType : connectionTypes){
+            if (this->connectionTypes.find(connectionType) == this->connectionTypes.end()){
+                throw "connection type not found";
+            }
+            for (string vertexName : usingVertexes){
+                if (this->vertexes.at(vertexName).find(connectionType) == this->vertexes.at(vertexName).end()){
+                    continue;
+                }
+                extend(nextUsingVertexes, this->vertexes.at(vertexName).at(connectionType));
+            }
+
+            usingVertexes = nextUsingVertexes;
+            nextUsingVertexes.clear();
+        }
+
+        extend(outVertexes, usingVertexes);
+        return vector<string>(outVertexes.begin(), outVertexes.end());
+    }
+    
 };
 
 
 
-class graph
-{
-private:
-    /* data */
-public:
-    map<string, vertex*> vertexes = {};
-    set<string> supportedConnectionTypes;
-    graph(set<string> supportedConnectionTypes): supportedConnectionTypes(supportedConnectionTypes){};
-    ~graph(){
-
-        for (auto it = vertexes.begin(); it != vertexes.end(); it++){
-            delete it->second;
-        }
-    };
-
-
-    bool createVertex(string name){
-        if (vertexes.find(name) != vertexes.end()) return false;
-        vertexes[name] = new vertex(name);
-        return true;
+template <typename T>
+inline void extend(set<T> &a, set<T> b){
+    for (auto it = b.begin(); it != b.end(); it++){
+        a.insert(*it);
     }
+    return ;
+}
 
 
-    bool addConnection(string from, string conectionType, string to){
-
-        if (supportedConnectionTypes.find(conectionType) == supportedConnectionTypes.end()) return false;
-        if (vertexes.find(from) == vertexes.end()) return false;
-        if (vertexes.find(to) == vertexes.end()) return false;
-
-
-        vertexes[from]->connections[conectionType].push_back(to);
-
-        return true;
+template <typename T>
+inline void extend(set<T> &a, vector<T> b){
+    for (auto it = b.begin(); it != b.end(); it++){
+        a.insert(*it);
     }
-
-
-    void display(){
-        for (auto it = vertexes.begin(); it != vertexes.end(); it++){
-            it->second->display();
-        }
-
-    }
-
-
-    vector<string> getNeighbors(vector<string> startingVertexNames, string connectionType){
-        if (this->supportedConnectionTypes.find(connectionType) == this->supportedConnectionTypes.end()) throw "connection type not supported";
-        for (vector<string>::iterator vertexName = startingVertexNames.begin(); vertexName != startingVertexNames.end(); vertexName++){
-
-            if (vertexes.find(*vertexName) == vertexes.end()) throw "vertex not found";
-            const vertex* v = vertexes[*vertexName];
-
-    
-    
-        }
-    }
-
-
-};
-
-
+    return ;
+}
 
 
 
 
 int main(){
-    graph g = graph({"friend", "parent", "child"});
-    g.createVertex("josh");
-    g.createVertex("jan");
+    Graph personGraph = Graph();
 
-    g.createVertex("kelman");
-    g.createVertex("albert");
-    g.createVertex("bert");
-
-
-
-    g.addConnection("josh", "friend", "jan");
-    g.addConnection("josh", "friend", "kelman");
-
-
-    g.addConnection("jan", "friend", "albert");
-    g.addConnection("jan", "friend", "bert");
-
-    g.addConnection("kelman", "child", "albert");
-    g.addConnection("kelman", "child", "bert");
-
-
-    g.display();
+    personGraph.addConnectionType("friends");
+    personGraph.addConnectionType("family");
+    personGraph.addConnectionType("acquaintance");
+    personGraph.addConnectionType("colleague");
 
 
 
+    personGraph.addVertex("John");
+    personGraph.addVertex("Jane");
+    personGraph.addVertex("Jack");
+    personGraph.addVertex("Jill");
+    personGraph.addVertex("Jenny");
+    personGraph.addVertex("Jenny");
 
+
+
+    personGraph.addConnection("John", "Jane", "friends");
+    personGraph.addConnection("John", "Jill", "friends");
+    personGraph.addConnection("Jane", "Jack", "friends");
+    personGraph.addConnection("Jack", "Jill", "friends");
+    personGraph.addConnection("Jill", "Jenny", "family");
+    personGraph.addConnection("Jenny", "John", "friends");
+    personGraph.addConnection("Jenny", "Jane", "friends");
+
+
+    personGraph.display();
+
+
+
+    auto friends = personGraph.expand("John", {"friends", "family"});
+
+    for (auto it = friends.begin(); it != friends.end(); it++){
+        cout << *it << " ";
+    }
     return 0;
 }
